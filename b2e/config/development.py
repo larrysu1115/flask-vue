@@ -15,3 +15,13 @@ SECURITY_PASSWORD_HASH = 'des_crypt'
 SECURITY_DEPRECATED_HASHING_SCHEMES = []
 # for token to work
 WTF_CSRF_ENABLED = False
+
+SWAGGER = {
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authentication-Token",
+            "in": "header"
+        }
+    }
+}

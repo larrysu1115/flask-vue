@@ -1,6 +1,6 @@
 from flasgger import APISpec, Swagger
 
-from ..warehouse.api import get_items
+from ..warehouse.api import get_items, get_products
 from ..warehouse.ma_schema import ProductSchema, ItemSchema
 
 def setup_swagger(app):
@@ -15,6 +15,6 @@ def setup_swagger(app):
     template = spec.to_flasgger(
         app,
         definitions=[ProductSchema, ItemSchema],
-        paths=[get_items]
+        paths=[get_items, get_products]
     )
     swag = Swagger(app, template=template)

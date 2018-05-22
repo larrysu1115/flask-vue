@@ -14,3 +14,4 @@ class ItemSchema(ma.Schema):
     date_produce = fields.Date()
 
 schema_items = ItemSchema(many=True)
+schema_products = ProductSchema(many=True)
