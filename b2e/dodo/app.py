@@ -5,6 +5,7 @@ import logging.config
 from .utils.database import setup_database
 from .utils.swagger import setup_swagger
 from .utils.gadget import db
+from .utils.gadget import fadmin
 
 def create_app():
     app = Flask(__name__)
@@ -15,14 +16,17 @@ def create_app():
     # load logging setting
     logging.config.fileConfig('./config/logging.cfg')
 
-    app.register_blueprint(blueprint_api, url_prefix='/doggy/api')
-    app.register_blueprint(warehouse_api, url_prefix='/warehouse')
-
-    app.logger.info('application start. __name__ : %s', __name__)
     db.init_app(app)
     setup_database(app)
+    fadmin.init_app(app)
+
+    app.register_blueprint(blueprint_api, url_prefix='/doggy/api')
+    app.register_blueprint(warehouse_api, url_prefix='/warehouse')
+    from .admin import view
     setup_swagger(app)
 
+    app.logger.info('application start. __name__ : %s', __name__)
+    
     return app
 
 if __name__ == '__main__':
