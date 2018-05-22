@@ -1,6 +1,5 @@
-# from flask_security import SQLAlchemyUserDatastore
-
 from .gadget import db
+from .gadget import security
 from ..model.warehouse import Product, Item
 from datetime import date
 
@@ -24,3 +23,15 @@ def setup_database(app):
         db.session.add_all(products)
         db.session.add_all(items)
         db.session.commit()
+
+        ds = security.datastore
+        role_admin = ds.find_or_create_role(name='admin', description='Administrator')
+        role_user = ds.find_or_create_role(name='user', description='Normal User')
+        ds.create_user(email='user@sws9f.org', password='user')
+        ds.create_user(email='admin@sws9f.org', password='admin')
+        db.session.commit()
+
+        ds.add_role_to_user('user@sws9f.org', 'user')
+        ds.add_role_to_user('admin@sws9f.org', 'admin')
+        db.session.commit()
+
